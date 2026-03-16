@@ -1,0 +1,103 @@
+---
+interface Props {
+	currentPage: number;
+	totalPages: number;
+	baseUrl: string; // e.g. "/blog"
+}
+
+const { currentPage, totalPages, baseUrl } = Astro.props;
+
+function pageUrl(page: number) {
+	return page === 1 ? `${baseUrl}/` : `${baseUrl}/${page}/`;
+}
+
+// Build list of page items: number | '...'
+function buildPages(): (number | '...')[] {
+	if (totalPages <= 7) {
+		return Array.from({ length: totalPages }, (_, i) => i + 1);
+	}
+	const pages: (number | '...')[] = [];
+	if (currentPage <= 4) {
+		// Near start: 1 2 3 4 5 ... N
+		for (let i = 1; i <= 5; i++) pages.push(i);
+		pages.push('...');
+		pages.push(totalPages);
+	} else if (currentPage >= totalPages - 3) {
+		// Near end: 1 ... N-4 N-3 N-2 N-1 N
+		pages.push(1);
+		pages.push('...');
+		for (let i = totalPages - 4; i <= totalPages; i++) pages.push(i);
+	} else {
+		// Middle: 1 ... cp-1 cp cp+1 ... N
+		pages.push(1);
+		pages.push('...');
+		pages.push(currentPage - 1);
+		pages.push(currentPage);
+		pages.push(currentPage + 1);
+		pages.push('...');
+		pages.push(totalPages);
+	}
+	return pages;
+}
+
+const pages = buildPages();
+const hasPrev = currentPage > 1;
+const hasNext = currentPage < totalPages;
+---
+
+<nav class="flex items-center justify-center" aria-label="分頁導覽">
+	<div class="bg-white border border-gray-300 rounded-[20px] flex items-center gap-2 px-5 py-3">
+
+		<!-- 上一頁 -->
+		{hasPrev ? (
+			<a
+				href={pageUrl(currentPage - 1)}
+				class="flex items-center gap-2 px-2 py-1.5 border border-gray-200 rounded text-sm text-gray-400 leading-5 whitespace-nowrap no-underline hover:bg-gray-50 transition-colors"
+			>
+				<span>&lt;</span>
+				<span>上一頁</span>
+			</a>
+		) : (
+			<span class="flex items-center gap-2 px-2 py-1.5 border border-gray-200 rounded text-sm text-gray-200 leading-5 whitespace-nowrap cursor-not-allowed select-none">
+				<span>&lt;</span>
+				<span>上一頁</span>
+			</span>
+		)}
+
+		<!-- Page numbers -->
+		{pages.map((p) =>
+			p === '...' ? (
+				<span class="flex items-center justify-center w-8 px-2 py-1.5 text-sm text-gray-400 leading-5 select-none">
+					...
+				</span>
+			) : p === currentPage ? (
+				<span class="flex items-center justify-center w-8 px-2 py-1.5 bg-blue-500 border border-blue-500 rounded text-sm text-white leading-5 font-normal select-none">
+					{p}
+				</span>
+			) : (
+				<a
+					href={pageUrl(p as number)}
+					class="flex items-center justify-center w-8 px-2 py-1.5 border border-gray-200 rounded text-sm text-gray-400 leading-5 no-underline hover:bg-gray-50 transition-colors"
+				>
+					{p}
+				</a>
+			)
+		)}
+
+		<!-- 下一頁 -->
+		{hasNext ? (
+			<a
+				href={pageUrl(currentPage + 1)}
+				class="flex items-center gap-2 px-2 py-1.5 border border-gray-200 rounded text-sm text-gray-400 leading-5 whitespace-nowrap no-underline hover:bg-gray-50 transition-colors"
+			>
+				<span>下一頁</span>
+				<span>&gt;</span>
+			</a>
+		) : (
+			<span class="flex items-center gap-2 px-2 py-1.5 border border-gray-200 rounded text-sm text-gray-200 leading-5 whitespace-nowrap cursor-not-allowed select-none">
+				<span>下一頁</span>
+				<span>&gt;</span>
+			</span>
+		)}
+	</div>
+</nav>

@@ -1,0 +1,52 @@
+---
+import AboutHeroImage from '../assets/blog-placeholder-about.jpg';
+import Layout from '../layouts/BlogPost.astro';
+---
+
+<Layout
+	title="關於我"
+	description="認識這個部落格的作者"
+	pubDate={new Date('2024-01-01')}
+	heroImage={AboutHeroImage}
+	tags={['關於']}
+	prevPost={null}
+	nextPost={null}
+>
+	<p>
+		嗨，歡迎來到我的技術部落格！我是一位熱愛程式開發的工程師，目前專注於 Web 開發領域，
+		對前端技術、後端架構與開發者體驗有濃厚的興趣。
+	</p>
+
+	<h2>關於這個部落格</h2>
+	<p>
+		這個部落格使用 <a href="https://astro.build/" target="_blank">Astro</a> 框架建置，
+		目的是記錄我在學習與工作中的各種心得。內容涵蓋：
+	</p>
+	<ul>
+		<li><strong>技術文章</strong>：深入探討各種程式語言、框架與工具的使用心得</li>
+		<li><strong>開發筆記</strong>：日常開發中遇到的問題與解決方案</li>
+		<li><strong>讀書心得</strong>：技術書籍與文章的閱讀筆記</li>
+		<li><strong>生活雜談</strong>：工程師生活的點點滴滴</li>
+	</ul>
+
+	<h2>技術棧</h2>
+	<p>我主要使用以下技術：</p>
+	<ul>
+		<li>前端：TypeScript、React、Vue、Astro</li>
+		<li>後端：Node.js、Python</li>
+		<li>資料庫：PostgreSQL、MongoDB</li>
+		<li>DevOps：Docker、GitHub Actions</li>
+	</ul>
+
+	<h2>聯絡方式</h2>
+	<p>
+		如果你對文章有任何問題或想法，歡迎透過以下方式聯繫我：
+	</p>
+	<ul>
+		<li>GitHub：<a href="https://github.com/" target="_blank">github.com/your-username</a></li>
+		<li>Twitter/X：<a href="https://twitter.com/" target="_blank">@your-handle</a></li>
+		<li>Email：<a href="mailto:hello@example.com">hello@example.com</a></li>
+	</ul>
+
+	<p>感謝你的造訪，希望這裡的內容對你有所幫助！</p>
+</Layout>

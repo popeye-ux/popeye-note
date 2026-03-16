@@ -1,0 +1,150 @@
+---
+import { getCollection } from 'astro:content';
+import BaseHead from '../components/BaseHead.astro';
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+import { SITE_TITLE } from '../consts';
+
+const allPosts = (await getCollection('blog')).sort(
+	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+);
+
+// Group posts by year
+const postsByYear = allPosts.reduce<Record<number, typeof allPosts>>((acc, post) => {
+	const year = post.data.pubDate.getFullYear();
+	if (!acc[year]) acc[year] = [];
+	acc[year].push(post);
+	return acc;
+}, {});
+
+const years = Object.keys(postsByYear)
+	.map(Number)
+	.sort((a, b) => b - a);
+
+const totalCount = allPosts.length;
+const earliestYear = years[years.length - 1];
+
+function formatMonthDay(date: Date) {
+	const m = String(date.getMonth() + 1).padStart(2, '0');
+	const d = String(date.getDate()).padStart(2, '0');
+	return `${m}.${d}`;
+}
+---
+
+<!doctype html>
+<html lang="zh-TW">
+	<head>
+		<BaseHead title={`文章列表 | ${SITE_TITLE}`} description="所有文章的時間軸歸檔" />
+	</head>
+	<body class="bg-gray-50">
+		<Header />
+
+		<div class="max-w-4xl mx-auto px-4 pt-6 pb-16 flex flex-col gap-4">
+
+			<!-- ① 頁頭卡片 -->
+			<div class="bg-white border border-slate-300 rounded-2xl py-6">
+				<div class="px-[60px] flex flex-col gap-6">
+
+					<!-- 麵包屑 -->
+					<nav class="flex items-center gap-2 text-sm text-gray-400">
+					<a href="/" class="flex items-center gap-1 leading-none text-gray-400 hover:text-gray-600 no-underline transition-colors">
+						<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="block shrink-0">
+								<path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+								<polyline points="9 22 9 12 15 12 15 22"/>
+							</svg>
+							<span>首頁</span>
+						</a>
+						<span>›</span>
+						<span>文章列表</span>
+						<span>›</span>
+					</nav>
+
+					<!-- 標題 + 統計 -->
+					<div class="px-2 flex items-center w-full">
+						<div class="flex-1 flex flex-col gap-5 min-w-0">
+							<!-- 頁面標題 -->
+							<h1 class="text-3xl font-bold text-black leading-9 m-0">文章列表</h1>
+
+							<!-- 統計列 -->
+							<div class="flex items-center w-full">
+								<!-- 說明文字 (flex-1) -->
+								<p class="flex-1 text-base text-gray-700 leading-6 m-0">記錄每一篇技術文章的時光足跡</p>
+
+								<!-- 篇數統計 (100px, 右邊框) -->
+								<div class="w-[100px] border-r border-[#90a1b9] flex items-center justify-center shrink-0">
+									<div class="text-[#4a5565] text-right">
+										<p class="text-[30px] leading-9 m-0">{totalCount}</p>
+										<p class="text-base leading-6 m-0">篇文章</p>
+									</div>
+								</div>
+
+								<!-- 開始年份 (100px) -->
+								<div class="w-[100px] flex items-center justify-center shrink-0">
+									<div class="text-[#4a5565] text-right">
+										<p class="text-[30px] leading-9 m-0">{earliestYear}</p>
+										<p class="text-base leading-6 m-0">開始</p>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- ② 各年份卡片 -->
+			{years.map((year) => {
+				const yearPosts = postsByYear[year];
+				return (
+					<div class="bg-white border border-slate-300 rounded-2xl overflow-hidden flex flex-col gap-4 pb-6">
+
+						<!-- 年份標頭 (灰底, 底線) -->
+						<div class="bg-gray-100 border-b border-slate-300 h-12 flex items-center px-[60px] shrink-0">
+							<div class="flex items-center gap-6 w-full">
+								<span class="flex-1 text-lg font-bold text-[#4a5565] leading-7">{year}</span>
+								<span class="bg-slate-300 text-[#4a5565] text-sm leading-5 px-4 py-1 rounded-full whitespace-nowrap">
+									{yearPosts.length}
+								</span>
+							</div>
+						</div>
+
+						<!-- 文章列表 -->
+						<div class="px-[60px] flex flex-col gap-2">
+							{yearPosts.map((post) => (
+								<a
+									href={`/blog/${post.id}/`}
+									class="border-b border-slate-300 flex items-center gap-[10px] px-2 py-1 no-underline hover:bg-gray-50 transition-colors group"
+								>
+									<!-- 日期 MM.DD -->
+									<span class="text-sm text-slate-700 leading-5 whitespace-nowrap shrink-0 w-10">
+										{formatMonthDay(post.data.pubDate)}
+									</span>
+
+									<!-- 標題 + 標籤 (flex-1) -->
+									<div class="flex-1 min-w-0 flex flex-col gap-2 justify-center py-1">
+										<p class="text-base text-slate-700 leading-6 m-0 group-hover:text-blue-500 transition-colors">
+											{post.data.title}
+										</p>
+										{post.data.tags && post.data.tags.length > 0 && (
+											<div class="flex items-center gap-[9px]">
+												{post.data.tags.map((tag) => (
+													<span class="inline-flex items-center justify-center px-2 py-1 bg-blue-50 rounded text-xs font-bold text-blue-400 whitespace-nowrap">
+														{tag}
+													</span>
+												))}
+											</div>
+										)}
+									</div>
+
+									<!-- 箭頭 -->
+									<span class="text-sm text-gray-400 leading-5 whitespace-nowrap shrink-0">›</span>
+								</a>
+							))}
+						</div>
+					</div>
+				);
+			})}
+
+		</div>
+		<Footer />
+	</body>
+</html>
