@@ -1,7 +1,6 @@
 ---
 import { Image } from 'astro:assets';
 import { getCollection } from 'astro:content';
-import HeroImage from '../assets/blog-placeholder-about.jpg';
 import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
@@ -28,16 +27,14 @@ function formatDate(date: Date) {
 		<Header />
 		<main class="max-w-4xl mx-auto px-4 pb-16">
 
-			<!-- Hero Banner -->
-			<section class="mt-6 mb-8">
-				<Image
-					src={HeroImage}
-					alt="Hero Banner"
-					width={1024}
-					height={384}
-					class="w-full h-80 object-cover rounded-xl block"
-				/>
-			</section>
+		<!-- Hero Banner -->
+		<section class="mt-6 mb-8">
+			<img
+				src="/hero.png"
+				alt="Hero Banner"
+				class="w-full h-80 object-cover rounded-xl block border border-gray-300"
+			/>
+		</section>
 
 			<!-- Article Grid -->
 			<ul class="grid grid-cols-3 gap-6 list-none p-0 m-0 max-[900px]:grid-cols-2 max-[560px]:grid-cols-1">
