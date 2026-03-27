@@ -22,37 +22,37 @@ const postsData = allPosts.map((post) => ({
 <!doctype html>
 <html lang="zh-TW">
 	<head>
-		<BaseHead title={`搜尋 | ${SITE_TITLE}`} description="搜尋文章" />
+		<BaseHead title={`?��? | ${SITE_TITLE}`} description="?��??��?" />
 	</head>
 	<body class="bg-gray-50">
 		<Header />
 
-		<div class="max-w-4xl mx-auto px-4 pt-6 pb-16 flex flex-col gap-4">
+		<div class="max-w-[1140px] mx-auto px-4 pt-6 pb-16 flex flex-col gap-4">
 
-			<!-- 搜尋輸入卡片 -->
+			<!-- ?��?輸入?��? -->
 			<div class="bg-white border border-slate-300 rounded-2xl pt-6 pb-9">
 				<div class="px-[60px] flex flex-col gap-6">
 
-					<!-- 麵包屑 -->
+					<!-- 麵�?�?-->
 					<nav class="flex items-center gap-2 text-sm text-gray-400">
 						<a href="/" class="flex items-center gap-1 leading-none text-gray-400 hover:text-gray-600 no-underline transition-colors">
 							<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="block shrink-0">
 								<path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
 								<polyline points="9 22 9 12 15 12 15 22"/>
 							</svg>
-							<span>首頁</span>
+							<span>首�?</span>
 						</a>
-						<span>›</span>
-						<span>搜尋</span>
+						<span>??/span>
+						<span>?��?</span>
 					</nav>
 
-					<!-- 搜尋列 -->
+					<!-- ?��???-->
 					<div class="flex items-center justify-center px-2">
 						<div class="flex items-center gap-2 w-full justify-center">
 							<input
 								id="search-input"
 								type="text"
-								placeholder="請輸入"
+								placeholder="請輸??
 								class="h-10 w-full max-w-[600px] border border-slate-400 rounded-lg px-3 text-base text-slate-700 placeholder-slate-400 outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors"
 							/>
 							<button
@@ -63,14 +63,14 @@ const postsData = allPosts.map((post) => ({
 									<circle cx="11" cy="11" r="8"/>
 									<line x1="21" y1="21" x2="16.65" y2="16.65"/>
 								</svg>
-								<span>搜尋</span>
+								<span>?��?</span>
 							</button>
 						</div>
 					</div>
 				</div>
 			</div>
 
-			<!-- 搜尋結果區塊 (由 JS 填充) -->
+			<!-- ?��?結�??��?(??JS 填�?) -->
 			<div id="search-results"></div>
 
 		</div>
@@ -78,7 +78,7 @@ const postsData = allPosts.map((post) => ({
 	</body>
 </html>
 
-<!-- 文章資料與搜尋邏輯 -->
+<!-- ?��?資�??��?尋�?�?-->
 <script define:vars={{ postsData }}>
 	function formatMonthDay(isoDate) {
 		const d = new Date(isoDate);
@@ -107,12 +107,12 @@ const postsData = allPosts.map((post) => ({
 					<p class="text-base text-slate-700 leading-6 m-0 group-hover:text-blue-500 transition-colors">${post.title}</p>
 					${tagsHtml}
 				</div>
-				<span class="text-sm text-gray-400 leading-5 whitespace-nowrap shrink-0">›</span>
+				<span class="text-sm text-gray-400 leading-5 whitespace-nowrap shrink-0">??/span>
 			</a>`;
 	}
 
 	function renderSectionCard(headerLabel, posts) {
-		const badge = `<span class="bg-slate-300 text-[#4a5565] text-sm leading-5 px-4 py-1 rounded-full whitespace-nowrap">${posts.length} 篇</span>`;
+		const badge = `<span class="bg-slate-300 text-[#4a5565] text-sm leading-5 px-4 py-1 rounded-full whitespace-nowrap">${posts.length} �?/span>`;
 		const rows = posts.map(renderPostRow).join('');
 		return `
 			<div class="bg-white border border-slate-300 rounded-2xl overflow-hidden flex flex-col gap-4 pb-6">
@@ -146,13 +146,12 @@ const postsData = allPosts.map((post) => ({
 		if (matched.length === 0) {
 			container.innerHTML = `
 				<div class="bg-white border border-slate-300 rounded-2xl py-12 text-center text-gray-400">
-					找不到「${query}」相關文章
-				</div>`;
+					?��??��?{query}?�相?��?�?				</div>`;
 			return;
 		}
 
 		// Keyword results card
-		let html = renderSectionCard(`關鍵字：${query}`, matched);
+		let html = renderSectionCard(`?�鍵字�?${query}`, matched);
 
 		// Group matched posts by year
 		const byYear = {};
