@@ -8,8 +8,8 @@ import tailwindcss from '@tailwindcss/vite';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://<你的GitHub帳號>.github.io',
-  base: '/<repo名稱>',
+  site: 'https://popeye-ux.github.io',
+  base: '/popeye-note',
   integrations: [mdx(), sitemap()],
 
   vite: {
