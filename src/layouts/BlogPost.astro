@@ -13,6 +13,7 @@ interface Props extends PostData {
 }
 
 const { title, description, pubDate, updatedDate, heroImage, tags, prevPost, nextPost } = Astro.props;
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 
 function formatDate(date: Date) {
 	const y = date.getFullYear();
@@ -53,7 +54,7 @@ function formatDate(date: Date) {
 					<div class="flex flex-col gap-8">
 
 						<nav class="flex items-center gap-2 text-sm text-gray-400" aria-label="breadcrumb">
-							<a href="/" class="inline-flex items-center gap-1 text-gray-400 hover:text-gray-600 no-underline transition-colors">
+							<a href={`${base}/`} class="inline-flex items-center gap-1 text-gray-400 hover:text-gray-600 no-underline transition-colors">
 								<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0" style="display:block;vertical-align:middle;position:relative;top:-2px">
 									<path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
 									<polyline points="9 22 9 12 15 12 15 22"/>
@@ -61,7 +62,7 @@ function formatDate(date: Date) {
 								<span>&#x9996;&#x9801;</span>
 							</a>
 							<span>&#x203a;</span>
-							<a href="/blog" class="text-gray-400 hover:text-gray-600 no-underline transition-colors">&#x6587;&#x7AE0;&#x5217;&#x8868;</a>
+							<a href={`${base}/blog`} class="text-gray-400 hover:text-gray-600 no-underline transition-colors">&#x6587;&#x7AE0;&#x5217;&#x8868;</a>
 							<span>&#x203a;</span>
 							<span class="truncate max-w-[240px]">{title}</span>
 						</nav>
@@ -101,7 +102,7 @@ function formatDate(date: Date) {
 
 				<div class="flex-1 min-w-0 px-5 py-4 border-r border-slate-200">
 					{prevPost ? (
-						<a href={`/blog/${prevPost.id}/`} class="flex flex-col gap-3.5 no-underline group h-full">
+						<a href={`${base}/blog/${prevPost.id}/`} class="flex flex-col gap-3.5 no-underline group h-full">
 							<div class="flex items-center gap-2">
 								<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-gray-400 shrink-0">
 									<path d="m15 18-6-6 6-6"/>
@@ -127,7 +128,7 @@ function formatDate(date: Date) {
 
 				<div class="flex-1 min-w-0 px-5 py-4">
 					{nextPost ? (
-						<a href={`/blog/${nextPost.id}/`} class="flex flex-col gap-3.5 items-end no-underline group h-full">
+						<a href={`${base}/blog/${nextPost.id}/`} class="flex flex-col gap-3.5 items-end no-underline group h-full">
 							<div class="flex items-center gap-2 justify-end w-full">
 								<span class="text-sm text-gray-400">&#x4E0B;&#x4E00;&#x7BC7;</span>
 								<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-gray-400 shrink-0">

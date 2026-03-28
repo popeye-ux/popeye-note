@@ -15,6 +15,7 @@ export async function getStaticPaths({ paginate }: { paginate: Function }) {
 }
 
 const { page } = Astro.props;
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 
 function formatDate(date: Date) {
 	const y = date.getFullYear();
@@ -41,7 +42,7 @@ function formatDate(date: Date) {
 				{page.data.map((post) => (
 					<li>
 						<a
-							href={`/blog/${post.id}/`}
+							href={`${base}/blog/${post.id}/`}
 							class="flex flex-col bg-white border border-gray-200 rounded-xl overflow-hidden h-full no-underline text-inherit hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200"
 						>
 							<!-- Card Image -->
