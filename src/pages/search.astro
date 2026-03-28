@@ -1,4 +1,4 @@
----
+﻿---
 import { getCollection } from 'astro:content';
 import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
@@ -9,7 +9,6 @@ const allPosts = (await getCollection('blog')).sort(
 	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
 );
 
-// Serialize posts for client-side search
 const postsData = allPosts.map((post) => ({
 	id: post.id,
 	title: post.data.title,
@@ -22,37 +21,34 @@ const postsData = allPosts.map((post) => ({
 <!doctype html>
 <html lang="zh-TW">
 	<head>
-		<BaseHead title={`?��? | ${SITE_TITLE}`} description="?��??��?" />
+		<BaseHead title={`&#x641C;&#x5C0B; | ${SITE_TITLE}`} description="&#x641C;&#x5C0B;&#x6587;&#x7AE0;" />
 	</head>
 	<body class="bg-gray-50">
 		<Header />
 
 		<div class="max-w-[1140px] mx-auto px-4 pt-6 pb-16 flex flex-col gap-4">
 
-			<!-- ?��?輸入?��? -->
 			<div class="bg-white border border-slate-300 rounded-2xl pt-6 pb-9">
 				<div class="px-[60px] flex flex-col gap-6">
 
-					<!-- 麵�?�?-->
 					<nav class="flex items-center gap-2 text-sm text-gray-400">
-						<a href="/" class="flex items-center gap-1 leading-none text-gray-400 hover:text-gray-600 no-underline transition-colors">
-							<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="block shrink-0">
+						<a href="/" class="inline-flex items-center gap-1 leading-none text-gray-400 hover:text-gray-600 no-underline transition-colors">
+							<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="block shrink-0" style="position:relative;top:-1px">
 								<path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
 								<polyline points="9 22 9 12 15 12 15 22"/>
 							</svg>
-							<span>首�?</span>
+							<span>&#x9996;&#x9801;</span>
 						</a>
-						<span>??/span>
-						<span>?��?</span>
+						<span>&#x203a;</span>
+						<span>&#x641C;&#x5C0B;</span>
 					</nav>
 
-					<!-- ?��???-->
 					<div class="flex items-center justify-center px-2">
 						<div class="flex items-center gap-2 w-full justify-center">
 							<input
 								id="search-input"
 								type="text"
-								placeholder="請輸??
+								placeholder="&#x8ACB;&#x8F38;&#x5165;"
 								class="h-10 w-full max-w-[600px] border border-slate-400 rounded-lg px-3 text-base text-slate-700 placeholder-slate-400 outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors"
 							/>
 							<button
@@ -63,14 +59,13 @@ const postsData = allPosts.map((post) => ({
 									<circle cx="11" cy="11" r="8"/>
 									<line x1="21" y1="21" x2="16.65" y2="16.65"/>
 								</svg>
-								<span>?��?</span>
+								<span>&#x641C;&#x5C0B;</span>
 							</button>
 						</div>
 					</div>
 				</div>
 			</div>
 
-			<!-- ?��?結�??��?(??JS 填�?) -->
 			<div id="search-results"></div>
 
 		</div>
@@ -78,15 +73,7 @@ const postsData = allPosts.map((post) => ({
 	</body>
 </html>
 
-<!-- ?��?資�??��?尋�?�?-->
 <script define:vars={{ postsData }}>
-	function formatMonthDay(isoDate) {
-		const d = new Date(isoDate);
-		const m = String(d.getMonth() + 1).padStart(2, '0');
-		const day = String(d.getDate()).padStart(2, '0');
-		return `${m}.${d.getFullYear()%100 === d.getFullYear() ? String(d.getFullYear()).slice(2) : String(d.getFullYear())}`;
-	}
-
 	function formatMD(isoDate) {
 		const d = new Date(isoDate);
 		return `${String(d.getMonth() + 1).padStart(2, '0')}.${String(d.getDate()).padStart(2, '0')}`;
@@ -101,18 +88,18 @@ const postsData = allPosts.map((post) => ({
 			? `<div class="flex items-center gap-[9px] flex-wrap">${post.tags.map(tagBadge).join('')}</div>`
 			: '';
 		return `
-			<a href="/blog/${post.id}/" class="border-b border-slate-300 flex items-center gap-[10px] px-2 py-1 no-underline hover:bg-gray-50 transition-colors group">
+			<a href="/popeye-note/blog/${post.id}/" class="border-b border-slate-300 flex items-center gap-[10px] px-2 py-1 no-underline hover:bg-gray-50 transition-colors group">
 				<span class="text-sm text-slate-700 leading-5 whitespace-nowrap shrink-0 w-10">${formatMD(post.pubDate)}</span>
 				<div class="flex-1 min-w-0 flex flex-col gap-2 justify-center py-1">
 					<p class="text-base text-slate-700 leading-6 m-0 group-hover:text-blue-500 transition-colors">${post.title}</p>
 					${tagsHtml}
 				</div>
-				<span class="text-sm text-gray-400 leading-5 whitespace-nowrap shrink-0">??/span>
+				<span class="text-sm text-gray-400 leading-5 whitespace-nowrap shrink-0">&#x203a;</span>
 			</a>`;
 	}
 
 	function renderSectionCard(headerLabel, posts) {
-		const badge = `<span class="bg-slate-300 text-[#4a5565] text-sm leading-5 px-4 py-1 rounded-full whitespace-nowrap">${posts.length} �?/span>`;
+		const badge = `<span class="bg-slate-300 text-[#4a5565] text-sm leading-5 px-4 py-1 rounded-full whitespace-nowrap">${posts.length} &#x7BC7;</span>`;
 		const rows = posts.map(renderPostRow).join('');
 		return `
 			<div class="bg-white border border-slate-300 rounded-2xl overflow-hidden flex flex-col gap-4 pb-6">
@@ -146,14 +133,13 @@ const postsData = allPosts.map((post) => ({
 		if (matched.length === 0) {
 			container.innerHTML = `
 				<div class="bg-white border border-slate-300 rounded-2xl py-12 text-center text-gray-400">
-					?��??��?{query}?�相?��?�?				</div>`;
+					&#x627E;&#x4E0D;&#x5230;&#x300C;${query}&#x300D;&#x76F8;&#x95DC;&#x6587;&#x7AE0;
+				</div>`;
 			return;
 		}
 
-		// Keyword results card
-		let html = renderSectionCard(`?�鍵字�?${query}`, matched);
+		let html = renderSectionCard(`&#x95DC;&#x9375;&#x5B57;&#xFF1A;${query}`, matched);
 
-		// Group matched posts by year
 		const byYear = {};
 		matched.forEach((p) => {
 			const year = new Date(p.pubDate).getFullYear();
@@ -171,7 +157,6 @@ const postsData = allPosts.map((post) => ({
 		container.innerHTML = html;
 	}
 
-	// Init: read query from URL
 	const params = new URLSearchParams(window.location.search);
 	const initialQuery = params.get('q') || '';
 	const input = document.getElementById('search-input');
@@ -180,7 +165,6 @@ const postsData = allPosts.map((post) => ({
 		runSearch(initialQuery);
 	}
 
-	// Search button click
 	document.getElementById('search-btn')?.addEventListener('click', () => {
 		const q = document.getElementById('search-input')?.value || '';
 		const url = new URL(window.location.href);
@@ -189,14 +173,12 @@ const postsData = allPosts.map((post) => ({
 		runSearch(q);
 	});
 
-	// Enter key
 	document.getElementById('search-input')?.addEventListener('keydown', (e) => {
 		if (e.key === 'Enter') {
 			document.getElementById('search-btn')?.click();
 		}
 	});
 
-	// Live search as typing
 	document.getElementById('search-input')?.addEventListener('input', (e) => {
 		runSearch(e.target.value);
 	});
