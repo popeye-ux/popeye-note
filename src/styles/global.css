@@ -13,6 +13,7 @@ body {
 
 /* Article body — matches Figma text styles */
 .article-body {
+	font-family: "Noto Sans TC", "Microsoft JhengHei", sans-serif;
 	font-size: 16px;
 	line-height: 32px;
 	color: #4a5565;
