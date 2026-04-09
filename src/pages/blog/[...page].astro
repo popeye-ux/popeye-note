@@ -46,7 +46,7 @@ function formatDate(date: Date) {
 							class="flex flex-col bg-white border border-gray-200 rounded-xl overflow-hidden h-full no-underline text-inherit hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200"
 						>
 							<!-- Card Image -->
-							<div class="w-full aspect-[4/3] overflow-hidden bg-gray-200 shrink-0">
+							<div class="w-full aspect-[20/9] overflow-hidden bg-gray-200 shrink-0">
 								{post.data.heroImage ? (
 									<Image
 										width={400}
@@ -61,7 +61,7 @@ function formatDate(date: Date) {
 							</div>
 
 							<!-- Card Body -->
-							<div class="p-4 flex flex-col flex-1">
+							<div class="px-4 pt-6 pb-4 flex flex-col flex-1">
 								<!-- Tags -->
 								{post.data.tags && post.data.tags.length > 0 && (
 									<div class="flex flex-wrap gap-1.5 mb-2.5">
@@ -79,9 +79,10 @@ function formatDate(date: Date) {
 								</h2>
 
 								<!-- Description -->
-								<p class="text-sm text-gray-500 leading-relaxed m-0 pb-3 line-clamp-3 flex-1">
+								<p class="text-sm text-gray-500 leading-relaxed m-0 line-clamp-3">
 									{post.data.description}
 								</p>
+								<div class="flex-1 min-h-3" />
 
 								<!-- Date -->
 								<time
